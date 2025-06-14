@@ -1,0 +1,351 @@
+{
+  "name": "Inbox Manager",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -800,
+        -240
+      ],
+      "id": "5729c451-fa52-4f7e-8e01-0a3439228b92",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "xgdBASyH5uqXN0xw",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.snippet }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "Shortlisted / Viewed",
+              "description": "Indicates your job application has been reviewed and you're shortlisted for further steps."
+            },
+            {
+              "category": "Referral Offered",
+              "description": "Someone is willing to refer you or has forwarded your resume to a company."
+            },
+            {
+              "category": "Interview / Assessment Invite",
+              "description": "Invitation to attend an interview or complete a test/assignment."
+            },
+            {
+              "category": "Rejected",
+              "description": "The application was not selected; the opportunity has been declined."
+            },
+            {
+              "category": "Spam / Irrelevant",
+              "description": "Unwanted, irrelevant, or suspicious emails unrelated to job search"
+            },
+            {
+              "category": "Job Board Notifications",
+              "description": "Alerts from platforms like LinkedIn or Internshala about job openings or application status."
+            },
+            {
+              "category": "HR Labmentix",
+              "description": "=If mail is from Labmentix "
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -500,
+        -240
+      ],
+      "id": "6c235dae-dcc4-42ca-8a38-d9efd385ece2",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -500,
+        0
+      ],
+      "id": "7772db4b-9e88-4104-a5ba-948281b13dbd",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "ISDlP1N9FjYGXNUz",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        340,
+        -100
+      ],
+      "id": "3aed5c10-1b30-41d2-9482-462f38079da7",
+      "name": "Gmail1",
+      "webhookId": "32aa7de1-f38c-44b2-a0db-5df5b2f6dab7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "xgdBASyH5uqXN0xw",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "6776648683",
+        "text": "=Your application has been viewed/shortlisted from -  {{ $json.From }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -80,
+        -600
+      ],
+      "id": "0efc8000-bf9e-4972-ba13-cf084bec15c7",
+      "name": "Telegram",
+      "webhookId": "aafe89cb-a7cc-43e5-b478-67f19dc246e2",
+      "credentials": {
+        "telegramApi": {
+          "id": "eWBTDAm88kyQ3oB5",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -40,
+        140
+      ],
+      "id": "0eb9babc-e98e-42b0-9d1d-20d9e56ef32c",
+      "name": "Gmail2",
+      "webhookId": "17e456f4-f899-4e78-b3f3-4ec9bb099de0",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "xgdBASyH5uqXN0xw",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "6776648683",
+        "text": "=Some one is ready to offer a Refferal",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        100,
+        -480
+      ],
+      "id": "59140003-1ff4-4474-8f5e-95cba92d3a15",
+      "name": "Telegram1",
+      "webhookId": "aafe89cb-a7cc-43e5-b478-67f19dc246e2",
+      "credentials": {
+        "telegramApi": {
+          "id": "eWBTDAm88kyQ3oB5",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "6776648683",
+        "text": "=You have an interview awaiting",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        320,
+        -340
+      ],
+      "id": "ee5e06a9-6908-4124-a8b4-93437860b096",
+      "name": "Telegram2",
+      "webhookId": "aafe89cb-a7cc-43e5-b478-67f19dc246e2",
+      "credentials": {
+        "telegramApi": {
+          "id": "eWBTDAm88kyQ3oB5",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $json.id }}",
+        "message": "Hi,  Thank you for informing me about the decision. I sincerely appreciate the opportunity to be considered and learn more about your team and work.  While I’m a bit disappointed, I remain genuinely interested in what you're building and would love to stay in touch for any future opportunities that may arise.  Wishing you continued success ahead!  Best regards,   Mohammed Musharraf   iammusharraf11@gmail.com   +91 9686220727  ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        620,
+        -200
+      ],
+      "id": "de4edea9-83c9-4f81-8bc4-a3926f983145",
+      "name": "Gmail3",
+      "webhookId": "4eaeb594-9345-4205-96fd-910812c2ef57",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "xgdBASyH5uqXN0xw",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "6776648683",
+        "text": "=Check mail new job posting awaits you",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        100,
+        -20
+      ],
+      "id": "22153d0f-b6b7-47fb-8352-65bd3fdb6521",
+      "name": "Telegram3",
+      "webhookId": "aafe89cb-a7cc-43e5-b478-67f19dc246e2",
+      "credentials": {
+        "telegramApi": {
+          "id": "eWBTDAm88kyQ3oB5",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Gmail3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Gmail1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Gmail2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6ce6544a-8a0d-413c-8dc4-f3cc8d719833",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a004b0ab11b061eae00e8760cfd5f1f069ffc554750326c79646ff088827ee0"
+  },
+  "id": "46edfzVrgsnR0muR",
+  "tags": []
+}
