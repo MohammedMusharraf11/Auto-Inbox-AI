@@ -14,8 +14,8 @@ Built for job seekers and professionals, this system classifies incoming emails 
 
 ## 🧠 How It Works
 
-![Workflow Screenshot](a41de676-bfc8-4b8b-989a-a7d5991cd50a.png)
 
+![Workflow Screenshot](https://github.com/user-attachments/assets/d550c5c0-b89a-4697-a8bb-125a2b07d833)
 1. **Gmail Trigger**: Checks for new incoming emails.
 2. **Text Classifier (OpenAI GPT-4o-mini)**: Classifies the email into one of several predefined categories:
    - Shortlisted / Viewed
