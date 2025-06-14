@@ -69,4 +69,4 @@ Made by **Mohammed Musharraf**, a GenAI + Automation enthusiast exploring agenti
 
 ## 📜 License
 
-MIT License
+[MIT](https://github.com/MohammedMusharraf11/Auto-Inbox-AI/blob/main/LICENSE)
